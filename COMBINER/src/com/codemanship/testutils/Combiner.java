@@ -23,13 +23,20 @@ public class Combiner {
 
 	private void insertColumnValues(int columnIndex, int repetitions,
 			Object[] columnSource) {
-		for(int i = 0; i < combined.length; i += (repetitions * columnSource.length)){
-			for(int j = 0;j < columnSource.length;j++){ 
-				for(int k = 0;k < repetitions;k++){
-					combined[i + (j * repetitions) + k][columnIndex] = columnSource[j];
-				}
+		int cycleLength = repetitions * columnSource.length;
+		for(int cycleStartIndex = 0; cycleStartIndex < combined.length; cycleStartIndex += cycleLength){
+			for(int valueIndex = 0; valueIndex < columnSource.length; valueIndex++){
+				repeatValue(columnIndex, repetitions, columnSource, cycleStartIndex, valueIndex);
 			}
 		}
+	}
+
+	private void repeatValue(int columnIndex, int repetitions, Object[] columnSource, int cycleStartIndex, int valueIndex) {
+		for(int repetitionIndex = 0; repetitionIndex < repetitions; repetitionIndex++){
+            int repetitionStartIndex = valueIndex * repetitions;
+            int rowIndex = cycleStartIndex + repetitionStartIndex + repetitionIndex;
+            combined[rowIndex][columnIndex] = columnSource[valueIndex];
+        }
 	}
 
 	private int calculateRepetitions(Object[][] arrays, int columnIndex) {
