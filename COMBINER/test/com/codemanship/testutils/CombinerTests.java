@@ -2,6 +2,7 @@ package com.codemanship.testutils;
 import static com.codemanship.testutils.Combiner.*;
 import static org.junit.Assert.*;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.junit.Test;
 
 import com.codemanship.testutils.Combiner;
@@ -58,5 +59,14 @@ public class CombinerTests {
 				{a,null,2,"A"},
 				{a,null,3,"A"}},		
 				combine(new Object[][]{{a},{b,null},{1,2,3},{"A"}}));
+	}
+
+	@Test(timeout=1000)
+	public void performanceTest() throws Exception {
+		combine(new Object[][]{
+				new Object[100],
+				new Object[100],
+				new Object[100]
+		});
 	}
 }
